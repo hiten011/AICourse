@@ -6,15 +6,6 @@ class PathFinder:
     algo = ""
     heuristic = ""
 
-    # parsing commands
-    def parseInput(self, cmds):
-        parsed = cmds.split(split)
-
-        self.mode = parsed[0]
-        self.mapFile = parsed[1]
-        self.algo = parsed[2]
-        self.heuristic = parsed[3]
-
     # run simulation
     def run(self, cmds):
         try:
@@ -24,6 +15,15 @@ class PathFinder:
             return False
 
         return True
+
+    # parsing commands
+    def parseInput(self, cmds):
+        parsed = cmds.split(split)
+
+        self.mode = parsed[0]
+        self.mapFile = parsed[1]
+        self.algo = parsed[2]
+        self.heuristic = parsed[3]
 
 import sys
 def main():
