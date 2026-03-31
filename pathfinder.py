@@ -1,3 +1,5 @@
+from pprint import pprint
+
 class PathFinder:
     # run simulation
     def run(self, cmds):
@@ -19,13 +21,31 @@ class PathFinder:
         if (self.algo == "BFS"):
             self.BFS()
 
+        # printing final path
+        if (self.isDebug):  
+            print("path: ")
+            pprint(self.path)
+
+            print("#visits: ")
+            pprint(self.visits)
+
+            print("first visit: ")
+            pprint(self.firstVisit)
+
+            print("last visit: ")
+            pprint(self.lastVisit)
+        else:
+            pprint(self.path)
+
         return True
+
 
     # parsing commands
     mode = ""
     mapFile = ""
     algo = ""
     heuristic = ""
+    isDebug = False
     def parseInput(self, parsed):
         self.mode = parsed[0]
         self.isDebug = self.mode == "debug"
@@ -35,6 +55,7 @@ class PathFinder:
         self.algo = parsed[2]
         if (self.algo == "A*"):
             self.heuristic = parsed[3]
+
 
     # parsing input text file
     adj = ""
