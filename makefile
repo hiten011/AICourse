@@ -1,2 +1,2 @@
 all:
-	python pathfinder.py debug file.txt algo sa 
+	python pathfinder.py debug input.txt algo sa 
