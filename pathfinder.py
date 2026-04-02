@@ -19,7 +19,7 @@ class PathFinder:
             return False
 
         # running Algo
-        if (self.algo == "BFS"):
+        if (self.algo == "bfs"):
             self.BFS()
         else:
             print("Not Completed")
@@ -78,8 +78,6 @@ class PathFinder:
 
             self.adj = [x.split() for x in file.read().splitlines()]
         
-        print(self.st)
-        print(self.en)
         # set Variables
         self.path = [[0] * self.c for _ in range(self.r)]
         self.visits = [[0] * self.c for _ in range(self.r)]
