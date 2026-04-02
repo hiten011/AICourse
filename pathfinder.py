@@ -74,7 +74,9 @@ class PathFinder:
             self.en = [int(x) - 1 for x in file.readline().split()]
 
             self.adj = [x.split() for x in file.read().splitlines()]
-
+        
+        print(self.st)
+        print(self.en)
         # set Variables
         self.path = [[0] * self.c for _ in range(self.r)]
         self.visits = [[0] * self.c for _ in range(self.r)]
@@ -113,12 +115,10 @@ class PathFinder:
     firstVisit = []
     lastVisit = []
     prevVisit = []
-    dir = [(-1, 0), (0, -1), (1, 0), (0, 1)]
+    dir = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
     # BFS Algo
     def BFS(self):
-        print("BFS")
-
         # counter: tracks current visit'th
         counter = 0
 
@@ -132,6 +132,12 @@ class PathFinder:
 
             cost, cur = q.popleft()
             x, y = cur
+
+            # Debug Mode
+            if self.isDebug:
+                self.visits[x][y] += 1
+                self.lastVisit[x][y] = counter
+                self.firstVisit[x][y] = self.firstVisit[x][y] if self.firstVisit[x][y] else counter
             
             for dx, dy in self.dir:   
                 # new cord
@@ -144,12 +150,6 @@ class PathFinder:
                     q.append((dp[i][j], (i, j)))
 
                     self.prevVisit[i][j] = (x, y)
-
-                    # Debug Mode
-                    if self.isDebug:
-                        self.visits[i][j] += 1
-                        self.lastVisit[i][j] = counter
-                        self.firstVisit[i][j] = self.firstVisit[i][j] if self.firstVisit[i][j] else counter
 
         # print(dp[self.en[0]][self.en[1]])
 
