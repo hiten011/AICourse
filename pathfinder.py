@@ -21,6 +21,9 @@ class PathFinder:
         # running Algo
         if (self.algo == "BFS"):
             self.BFS()
+        else:
+            print("Not Completed")
+            return True
 
         # update path
         isValidPath = self.updatePath()
