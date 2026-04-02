@@ -1,4 +1,3 @@
-from pprint import pprint
 from collections import deque
 
 class PathFinder:
@@ -31,18 +30,18 @@ class PathFinder:
         # printing final path
         if (self.isDebug):  
             print("path: ")
-            pprint(self.path) if isValidPath else print("null") 
+            self.pprint(self.path) if isValidPath else print("null") 
 
             print("#visits: ")
-            pprint(self.visits) if isValidPath else print("...") 
+            self.pprint(self.visits) if isValidPath else print("...") 
 
             print("first visit: ")
-            pprint(self.firstVisit) if isValidPath else print("...") 
+            self.pprint(self.firstVisit) if isValidPath else print("...") 
 
             print("last visit: ")
-            pprint(self.lastVisit) if isValidPath else print("...") 
+            self.pprint(self.lastVisit) if isValidPath else print("...") 
         else:
-            pprint(self.path) if isValidPath else print("null") 
+            self.pprint(self.path) if isValidPath else print("null") 
 
         return True
 
@@ -157,6 +156,11 @@ class PathFinder:
 
     # helper functions
     calcCost = lambda self, x, y, i, j : 1 + max(self.path[i][j] - self.path[x][y], 0)
+
+    # print function to print grids
+    def pprint(self, grid):
+        for row in grid:
+            print(" ".join(str(cell).center(3) for cell in row))
 
 
 

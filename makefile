@@ -1,2 +1,2 @@
 all:
-	python pathfinder.py debug input.txt BFS
+	python pathfinder.py debug input.txt bfs
