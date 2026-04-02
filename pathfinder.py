@@ -154,7 +154,7 @@ class PathFinder:
 
                     self.prevVisit[i][j] = (x, y)
 
-        print(dp[self.en[0]][self.en[1]])
+        # print(dp[self.en[0]][self.en[1]])
 
     # UCS
     def UCS(self):
