@@ -17,17 +17,17 @@ class PathFinder:
             print("[Error] Parsing Text File Failed")
             return False
 
-        # running Algo
+        # 3. running Algo
         if (self.algo == "bfs"):
             self.BFS()
         else:
             print("Not Completed")
             return True
 
-        # update path
+        # 4. update path
         isValidPath = self.updatePath()
 
-        # printing final path
+        # 5. printing final path
         if (self.isDebug):  
             print("path: ")
             self.pprint(self.path) if isValidPath else print("null") 
@@ -158,9 +158,9 @@ class PathFinder:
     calcCost = lambda self, x, y, i, j : 1 + max(self.path[i][j] - self.path[x][y], 0)
 
     # print function to print grids
-    def pprint(self, grid):
+    def pprint(self, grid, width = 1):
         for row in grid:
-            print(" ".join(str(cell).center(3) for cell in row))
+            print(" ".join(str(cell).rjust(width) for cell in row))
 
 
 
