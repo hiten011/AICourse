@@ -1,2 +1,2 @@
 all:
-	python pathfinder.py debug input.txt ucs
+	python pathfinder.py debug input.txt astar euclidean

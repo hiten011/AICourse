@@ -1,6 +1,7 @@
 from collections import deque
 import heapq
 
+// new push
 class PathFinder:
     # run simulation
     def run(self, cmds):
@@ -23,9 +24,11 @@ class PathFinder:
             self.BFS()
         elif (self.algo == "ucs"):
             self.UCS()
+        elif (self.algo == "astar"):
+            self.A()
         else:
-            print("Not Completed")
-            return True
+            print("[Error] Not valid Algo")
+            return False
 
         # 4. update path
         isValidPath = self.updatePath()
@@ -192,7 +195,47 @@ class PathFinder:
 
         # print(dp[self.en[0]][self.en[1]])
 
+    # A* algo
+    def A(self):
+        # counter: tracks current visit'th
+        counter = 0
 
+        # min cost at each cell
+        dp = [[-1] * self.c for _ in range(self.r)]
+
+        q = [] # queue
+        heapq.heappush(q, (self.heuristicCost(self.st[0], self.st[1]), 0, self.st)) # q: {curCost, [x, y]}
+        while (q):
+            counter += 1
+
+            h, cost, cur = heapq.heappop(q)  
+            x, y = cur
+
+            # Debug Mode
+            if self.isDebug:
+                self.visits[x][y] += 1
+                self.lastVisit[x][y] = counter
+                self.firstVisit[x][y] = self.firstVisit[x][y] if self.firstVisit[x][y] else counter
+            
+            for dx, dy in self.dir:   
+                # new cord
+                i = dx + x
+                j = dy + y
+
+                isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and (dp[i][j] == -1 or dp[i][j] > cost + self.calcCost(x, y, i, j))
+                if (isValid):
+                    dp[i][j] = cost + self.calcCost(x, y, i, j)
+                    heapq.heappush(q, (self.heuristicCost(i, j) + dp[i][j], dp[i][j], (i, j)))
+
+                    self.prevVisit[i][j] = (x, y)
+
+    def heuristicCost(self, x, y):
+        ex, ey = self.en
+        if self.heuristic == "euclidean":
+            return math.sqrt((ex - x)**2 + (ey - y)**2)
+        else:  # manhattan
+            return abs(ex - x) + abs(ey - y)
+        
 
     # helper functions
     calcCost = lambda self, x, y, i, j : 1 + max(self.path[i][j] - self.path[x][y], 0)
