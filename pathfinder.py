@@ -1,7 +1,6 @@
 from collections import deque
 import heapq
 
-// new push
 class PathFinder:
     # run simulation
     def run(self, cmds):
