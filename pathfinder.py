@@ -149,12 +149,15 @@ class PathFinder:
                 i = dx + x
                 j = dy + y
 
-                isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and (dp[i][j] == -1 or dp[i][j] > cost + self.calcCost(x, y, i, j))
+                isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and dp[i][j] == -1
                 if (isValid):
                     dp[i][j] = cost + self.calcCost(x, y, i, j)
                     q.append((dp[i][j], (i, j)))
 
                     self.prevVisit[i][j] = (x, y)
+
+                    if i == self.en[0] and j == self.en[1]:
+                        return True
 
         # print(dp[self.en[0]][self.en[1]])
 
