@@ -207,11 +207,11 @@ class PathFinder:
         dp = [[-1] * self.c for _ in range(self.r)]
 
         q = [] # queue
-        heapq.heappush(q, (self.heuristicCost(self.st[0], self.st[1]), 0, self.st)) # q: {curCost, [x, y]}
+        heapq.heappush(q, (self.heuristicCost(self.st[0], self.st[1]), 0, self.nextRank(), self.st)) # q: {curCost, [x, y]}
         while (q):
             counter += 1
 
-            h, cost, cur = heapq.heappop(q)  
+            h, cost, rank, cur = heapq.heappop(q)  
             x, y = cur
 
             # Debug Mode
@@ -228,7 +228,7 @@ class PathFinder:
                 isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and dp[i][j] == -1
                 if (isValid):
                     dp[i][j] = cost + self.calcCost(x, y, i, j)
-                    heapq.heappush(q, (self.heuristicCost(i, j) + dp[i][j], dp[i][j], (i, j)))
+                    heapq.heappush(q, (self.heuristicCost(i, j) + dp[i][j], dp[i][j], self.nextRank(), (i, j)))
 
                     self.prevVisit[i][j] = (x, y)
 
