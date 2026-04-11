@@ -188,7 +188,7 @@ class PathFinder:
                 i = dx + x
                 j = dy + y
 
-                isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and (dp[i][j] == -1 or dp[i][j] > cost + self.calcCost(x, y, i, j))
+                isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and dp[i][j] == -1
                 if (isValid):
                     dp[i][j] = cost + self.calcCost(x, y, i, j)
                     heapq.heappush(q, (dp[i][j], (i, j)))
