@@ -64,7 +64,7 @@ class PathFinder:
         self.mapFile = parsed[1]
 
         self.algo = parsed[2]
-        if (self.algo == "A*"):
+        if (self.algo == "astar"):
             self.heuristic = parsed[3]
 
 
@@ -194,7 +194,6 @@ class PathFinder:
 
                     self.prevVisit[i][j] = (x, y)
 
-        # print(dp[self.en[0]][self.en[1]])
 
     # A* algo
     def A(self):
