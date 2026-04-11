@@ -168,7 +168,7 @@ class PathFinder:
         counter = 0
 
         # min cost at each cell
-        dp = [[-1] * self.c for _ in range(self.r)]
+        visited = [[-1] * self.c for _ in range(self.r)]
 
         q = [] # queue
         heapq.heappush(q, (0, self.nextRank(), self.st)) # q: {curCost, counter, [x, y]}
@@ -189,14 +189,13 @@ class PathFinder:
                 i = dx + x
                 j = dy + y
 
-                isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and dp[i][j] == -1
+                isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and visited[i][j] == -1
                 if (isValid):
-                    dp[i][j] = cost + self.calcCost(x, y, i, j)
-                    heapq.heappush(q, (dp[i][j], self.nextRank(), (i, j)))
+                    visited = 0 # mark as visited
+                    newCost = cost + self.calcCost(x, y, i, j)
+                    heapq.heappush(q, (newCost, self.nextRank(), (i, j)))
 
                     self.prevVisit[i][j] = (x, y)
-
-        # print(dp[self.en[0]][self.en[1]])
 
     # A* algo
     def A(self):
