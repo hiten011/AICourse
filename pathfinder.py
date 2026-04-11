@@ -121,6 +121,7 @@ class PathFinder:
     lastVisit = []
     prevVisit = []
     dir = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    rank = 0
 
     # BFS Algo
     def BFS(self):
@@ -170,11 +171,11 @@ class PathFinder:
         dp = [[-1] * self.c for _ in range(self.r)]
 
         q = [] # queue
-        heapq.heappush(q, (0, self.st)) # q: {curCost, [x, y]}
+        heapq.heappush(q, (0, self.nextRank(), self.st)) # q: {curCost, counter, [x, y]}
         while (q):
             counter += 1
 
-            cost, cur = heapq.heappop(q)  
+            cost, rank, cur = heapq.heappop(q)  
             x, y = cur
 
             # Debug Mode
@@ -191,7 +192,7 @@ class PathFinder:
                 isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and (dp[i][j] == -1 or dp[i][j] > cost + self.calcCost(x, y, i, j))
                 if (isValid):
                     dp[i][j] = cost + self.calcCost(x, y, i, j)
-                    heapq.heappush(q, (dp[i][j], (i, j)))
+                    heapq.heappush(q, (dp[i][j], self.nextRank(), (i, j)))
 
                     self.prevVisit[i][j] = (x, y)
 
@@ -241,6 +242,10 @@ class PathFinder:
 
     # helper functions
     calcCost = lambda self, x, y, i, j : 1 + max(self.path[i][j] - self.path[x][y], 0)
+
+    def nextRank(self): 
+        self.rank += 1
+        return self.rank
 
     # print function to print grids
     def pprint(self, grid, width = 1):
