@@ -191,11 +191,13 @@ class PathFinder:
 
                 isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and visited[i][j] == -1
                 if (isValid):
-                    visited = 0 # mark as visited
+                    visited[i][j] = 0 # mark as visited
                     newCost = cost + self.calcCost(x, y, i, j)
                     heapq.heappush(q, (newCost, self.nextRank(), (i, j)))
 
                     self.prevVisit[i][j] = (x, y)
+
+        # print(dp[self.en[0]][self.en[1]])
 
     # A* algo
     def A(self):
