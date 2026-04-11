@@ -152,7 +152,6 @@ class PathFinder:
 
                 isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and visited[i][j] == -1
                 if (isValid):
-                    visited[i][j] = 0 # mark as visited
                     q.append((i, j))
 
                     self.prevVisit[i][j] = (x, y)
@@ -222,7 +221,7 @@ class PathFinder:
                 i = dx + x
                 j = dy + y
 
-                isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and dp[i][j] == -1
+                isValid = i >= 0 and j >= 0 and i < self.r and j < self.c and not self.path[i][j] == 'X' and (dp[i][j] == -1 or dp[i][j] > cost + self.calcCost(x, y, i, j))
                 if (isValid):
                     dp[i][j] = cost + self.calcCost(x, y, i, j)
                     heapq.heappush(q, (self.heuristicCost(i, j) + dp[i][j], dp[i][j], self.nextRank(), (i, j)))
