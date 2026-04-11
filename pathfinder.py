@@ -195,6 +195,9 @@ class PathFinder:
 
                     self.prevVisit[i][j] = (x, y)
 
+                    if i == self.en[0] and j == self.en[1]:
+                        return True
+
         # print(dp[self.en[0]][self.en[1]])
 
     # A* algo
