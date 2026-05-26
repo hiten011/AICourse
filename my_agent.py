@@ -11,10 +11,10 @@ from kb import KnowledgeBase, CellStatus
 class MyAgent(Agent):
 
     def __init__(self):
-        super().__init__()
         self.kb = KnowledgeBase()
         self.pos = (0, 0)
         self.facing_idx = 1          # start facing East
+        super().__init__()
 
     def reset(self):
         super().reset()
@@ -26,7 +26,7 @@ class MyAgent(Agent):
         super().update(senses)
 
     def act(self):
-        
+        return ACTIONS[6]
 
 def parse_args():
     """Read command-line options for launching the logic-agent emulator."""
