@@ -27,13 +27,16 @@ class KnowledgeBase:
         if cell.status not in (CellStatus.WALL, CellStatus.DANGER):
             cell.status = CellStatus.SAFE
 
-    def mark_danger(self, pos: tuple):
-        self._map[pos].status = CellStatus.DANGER
+    def mark_danger_pit(self, pos: tuple):
+        self._map[pos].status = CellStatus.DANGER_PIT
+
+    def mark_danger_wumpus(self, pos: tuple):
+        self._map[pos].status = CellStatus.DANGER_WUMPUS
 
     def clear_wumpus_danger(self):
         self.wumpus_dead = True
         for pos, cell in self._map.items():
-            if cell.status == CellStatus.DANGER and cell.wumpus_score == 4:
+            if cell.status == CellStatus.DANGER_WUMPUS:
                 cell.status = CellStatus.SAFE
                 cell.wumpus_score = 0
 
