@@ -16,37 +16,34 @@ class KnowledgeBase:
         return pos in self._map
 
     def mark_visited(self, pos: tuple):
-        cell = self._map[pos]
-        cell.visited = True
-        cell.status = CellStatus.SAFE
+        self._map[pos].visited = True       
 
     def mark_wall(self, pos: tuple):
-        self._map[pos].status = CellStatus.WALL
+        self._map[pos].is_bump = True
 
     def mark_safe(self, pos: tuple):
         cell = self._map[pos]
         if cell.status == CellStatus.UNKNOWN:
-            cell.status = CellStatus.SAFE
+            cell.status = CellStatus.SAFE      
 
     def mark_empty(self, pos: tuple):
         for neighbor in neighbors(pos):
             self.mark_safe(neighbor)
 
     def mark_breeze(self, pos: tuple):
-        self._map[pos].has_breeze = True
+        self._map[pos].has_breeze = True       
 
     def mark_stench(self, pos: tuple):
-        self._map[pos].has_stench = True
+        self._map[pos].has_stench = True     
 
     def mark_glimmer(self, pos: tuple):
         pass  # TODO: implement glimmer tracking
 
     def mark_danger_pit(self, pos: tuple):
-        self._map[pos].status = CellStatus.DANGER_PIT
+        self._map[pos].pit_score = 4           # evaluate_status auto-sets DANGER_PIT
 
     def mark_danger_wumpus(self, pos: tuple):
-        self._map[pos].status = CellStatus.DANGER_WUMPUS
-
+        self._map[pos].wumpus_score = 4        # evaluate_status auto-sets DANGER_WUMPUS
 
     def reset(self):
         self._map = defaultdict(Cell)
