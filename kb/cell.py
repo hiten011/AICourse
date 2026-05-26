@@ -3,10 +3,11 @@ from enum import Enum, auto
 
 
 class CellStatus(Enum):
-    UNKNOWN = auto()
-    SAFE    = auto()
-    DANGER  = auto()
-    WALL    = auto()
+    UNKNOWN      = auto()
+    SAFE         = auto()
+    DANGER_PIT   = auto()
+    DANGER_WUMPUS = auto()
+    WALL         = auto()
 
 
 @dataclass
