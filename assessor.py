@@ -16,8 +16,8 @@ from console import PygameApp
 from utils import load_config
 import numpy as np
 
-# agent = MyAgent()
-agent = RandomAgent()
+agent = MyAgent()
+# agent = RandomAgent()
 scores = []
 num_runs = 100
 config = load_config(cave_name='gold')
