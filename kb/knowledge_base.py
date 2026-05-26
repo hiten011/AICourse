@@ -1,5 +1,6 @@
 from collections import defaultdict
 from .cell import Cell, CellStatus
+from .definitions import neighbors
 
 
 class KnowledgeBase:
@@ -24,8 +25,12 @@ class KnowledgeBase:
 
     def mark_safe(self, pos: tuple):
         cell = self._map[pos]
-        if cell.status not in (CellStatus.WALL, CellStatus.DANGER):
+        if cell.status == CellStatus.UNKNOWN:
             cell.status = CellStatus.SAFE
+
+    def mark_empty(self, pos: tuple):
+        for neighbor in neighbors(pos):
+            self.mark_safe(neighbor)
 
     def mark_danger_pit(self, pos: tuple):
         self._map[pos].status = CellStatus.DANGER_PIT
@@ -33,12 +38,6 @@ class KnowledgeBase:
     def mark_danger_wumpus(self, pos: tuple):
         self._map[pos].status = CellStatus.DANGER_WUMPUS
 
-    def clear_wumpus_danger(self):
-        self.wumpus_dead = True
-        for pos, cell in self._map.items():
-            if cell.status == CellStatus.DANGER_WUMPUS:
-                cell.status = CellStatus.SAFE
-                cell.wumpus_score = 0
 
     def reset(self):
         self._map = defaultdict(Cell)
