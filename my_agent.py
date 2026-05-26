@@ -24,6 +24,25 @@ class MyAgent(Agent):
 
     def update(self, senses):
         super().update(senses)
+        self.kb.mark_visited(self.pos)
+
+        if senses['Breeze']:
+            print(f"[{self.pos}] Breeze")
+            self.kb.mark_breeze(self.pos)
+        if senses['Stench']:
+            print(f"[{self.pos}] Stench")
+            self.kb.mark_stench(self.pos)
+        if senses['Glimmer']:
+            print(f"[{self.pos}] Glimmer")
+            self.kb.mark_glimmer(self.pos)
+        if senses['Bump']:
+            print(f"[{self.pos}] Bump")
+            self.kb.mark_wall(self.pos)
+        if senses['Scream']:
+            print(f"[{self.pos}] Scream")
+        if not any(senses.values()):
+            print(f"[{self.pos}] Empty Cell")
+            self.kb.mark_empty(self.pos)
 
     def act(self):
         return ACTIONS[6]
