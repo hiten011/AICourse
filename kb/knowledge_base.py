@@ -32,6 +32,15 @@ class KnowledgeBase:
         for neighbor in neighbors(pos):
             self.mark_safe(neighbor)
 
+    def mark_breeze(self, pos: tuple):
+        self._map[pos].has_breeze = True
+
+    def mark_stench(self, pos: tuple):
+        self._map[pos].has_stench = True
+
+    def mark_glimmer(self, pos: tuple):
+        pass  # TODO: implement glimmer tracking
+
     def mark_danger_pit(self, pos: tuple):
         self._map[pos].status = CellStatus.DANGER_PIT
 
