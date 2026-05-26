@@ -2,6 +2,30 @@ import argparse
 from agent import Agent
 from console import PygameApp
 from utils import load_config
+from definitions import ACTIONS, SENSE_NAMES, DIRECTIONS, VECTORS
+
+# ─── SENSES (received in update()) ───────────────────────────────────────────
+# Stench   → Wumpus is in an adjacent cell (N/E/S/W). Does NOT mean current cell.
+# Breeze   → Pit is in an adjacent cell (N/E/S/W). Does NOT mean current cell.
+# Glimmer  → Gold is in the CURRENT cell (not adjacent).
+# Bump     → Last FORWARD hit a wall — position did NOT change, must revert.
+# Scream   → Wumpus just died (arrow hit). Heard globally; set wumpus_dead=True.
+#
+# Negative percepts matter equally:
+#   No Stench → no Wumpus in any adjacent cell → all neighbors Wumpus-safe.
+#   No Breeze → no Pit in any adjacent cell    → all neighbors pit-safe.
+
+# ─── ACTIONS (returned from act()) ───────────────────────────────────────────
+# FORWARD    → Move one step in current facing direction. Cost: -1.
+#              If wall ahead, position unchanged and next update() has Bump=True.
+# LEFT       → Rotate 90° counter-clockwise (no movement). Cost: -1.
+# RIGHT      → Rotate 90° clockwise (no movement). Cost: -1.
+# GRAB       → Pick up gold if present in current cell. Cost: -1.
+# SHOOT      → Fire arrow straight ahead (one-use only). Cost: -10 total.
+#              If Wumpus is in that line, it dies and Scream percept fires.
+# EXIT       → Leave the cave. Cost: -1.
+#              Only scores gold/win if standing at spawn cell (0,0).
+# NO_ACTION  → Do nothing. Cost: 0, but still burns 1000-step budget.
 
 
 class MyAgent(Agent):
@@ -15,12 +39,15 @@ class MyAgent(Agent):
 
 
     def act(self):
-        ...
-        return "NO_ACTION"
+        return ACTIONS[0]
 
     def update(self, senses):
         super(MyAgent, self).update(senses)
-        ...
+
+        # Print all senses received this tick
+        for s in SENSE_NAMES:
+            print(s + " " + ('True' if senses[s] else 'False') + "\n")
+
 
 def parse_args():
     """Read command-line options for launching the logic-agent emulator."""
