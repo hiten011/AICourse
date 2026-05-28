@@ -20,7 +20,7 @@ agent = MyAgent()
 # agent = RandomAgent()
 scores = []
 num_runs = 100
-config = load_config(cave_name='breeze_and_gold')
+config = load_config(cave_name='default')
 for i in range(num_runs):
     score, _ = PygameApp(agent=agent, config=config).run()
     scores.append(score)
