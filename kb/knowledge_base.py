@@ -33,7 +33,10 @@ class KnowledgeBase:
             self.mark_safe(neighbor)
 
     def mark_breeze(self, pos: tuple):
-        self._map[pos].has_breeze = True       
+        self._map[pos].has_breeze = True
+        for n in neighbors(pos):
+            if self._map[n].status == CellStatus.UNKNOWN:
+                self._map[n].pit_score += 1
 
     def mark_stench(self, pos: tuple):
         self._map[pos].has_stench = True     

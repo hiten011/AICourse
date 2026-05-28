@@ -30,7 +30,7 @@ class Cell:
             return self.visited  # 0 = unvisited = safest; higher = visited more
 
         if self.status == CellStatus.UNKNOWN:
-            return 2
+            return 500 + self.pit_score + self.wumpus_score
 
         return 999  # DANGER_PIT, DANGER_WUMPUS, WALL — never enter
 
