@@ -40,7 +40,7 @@ class KnowledgeBase:
         self._map[pos].has_stench = True     
 
     def mark_glimmer(self, pos: tuple):
-        pass  # TODO: implement glimmer tracking
+        self._map[pos].has_glimmer = True
 
     def mark_danger_pit(self, pos: tuple):
         self._map[pos].pit_score = 4           # evaluate_status auto-sets DANGER_PIT
@@ -49,6 +49,10 @@ class KnowledgeBase:
         self._map[pos].wumpus_score = 4        # evaluate_status auto-sets DANGER_WUMPUS
 
     def next_action(self, pos: tuple, facing_idx: int) -> str:
+        if self._map[pos].has_glimmer and not self.gold_grabbed:
+            self.gold_grabbed = True
+            return 'GRAB'
+
         r, c = pos
         neighbours = [
             (r + 1, c),     # N

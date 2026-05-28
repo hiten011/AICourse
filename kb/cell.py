@@ -16,6 +16,7 @@ class Cell:
     visited:      bool       = False
     has_stench:   bool       = False
     has_breeze:   bool       = False
+    has_glimmer:  bool       = False
     is_bump:      bool       = False
     pit_score:    int        = 0
     wumpus_score: int        = 0
