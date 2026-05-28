@@ -1,6 +1,6 @@
 from collections import defaultdict
 from .cell import Cell, CellStatus
-from .definitions import neighbors
+from .definitions import neighbors, action_toward
 
 
 class KnowledgeBase:
