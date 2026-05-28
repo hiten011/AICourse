@@ -18,7 +18,7 @@ class Cell:
         self.has_glimmer  = False
         self.is_bump      = False
         self.pit_score    = 0
-        self.wumpus_score = 0  # evaluate_status fires from here onward
+        self.wumpus_score = 0 
 
     def __setattr__(self, name, value):
         object.__setattr__(self, name, value)
@@ -30,7 +30,7 @@ class Cell:
             return self.visited  # 0 = unvisited = safest; higher = visited more
 
         if self.status == CellStatus.UNKNOWN:
-            return 4 + self.pit_score + self.wumpus_score
+            return 3 + self.pit_score + self.wumpus_score
 
         return 999  # DANGER_PIT, DANGER_WUMPUS, WALL — never enter
 
