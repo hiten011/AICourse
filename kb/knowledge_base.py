@@ -15,8 +15,11 @@ class KnowledgeBase:
     def __contains__(self, pos: tuple) -> bool:
         return pos in self._map
 
-    def mark_visited(self, pos: tuple):
-        self._map[pos].visited = True       
+    def mark_visited(self, pos: tuple) -> bool:
+        if self._map[pos].visited:
+            return False
+        self._map[pos].visited = True
+        return True
 
     def mark_wall(self, pos: tuple):
         self._map[pos].is_bump = True

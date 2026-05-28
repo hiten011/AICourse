@@ -26,7 +26,8 @@ class MyAgent(Agent):
 
     def update(self, senses):
         super().update(senses)
-        self.kb.mark_visited(self.pos)
+        if not self.kb.mark_visited(self.pos):
+            return
 
         if senses['Breeze']:
             print(f"[{self.pos}] Breeze")
