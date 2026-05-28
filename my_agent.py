@@ -23,6 +23,8 @@ class MyAgent(Agent):
         self.pos = (0, 0)
         self.prev_pos = (0, 0)
         self.facing_idx = 1
+        self.rows = 4
+        self.cols = 4
 
     def update(self, senses):
         super().update(senses)
@@ -59,7 +61,7 @@ class MyAgent(Agent):
         print(f"[{self.pos}] act() called — facing {DIRECTIONS[self.facing_idx]}")
         self.prev_pos = self.pos
 
-        action = self.kb.next_action(self.pos, self.facing_idx)
+        action = self.kb.next_action(self.pos, self.facing_idx, (self.rows, self.cols))
 
         if action == 'LEFT':
             self.facing_idx = (self.facing_idx - 1) % 4
