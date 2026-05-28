@@ -5,7 +5,7 @@ from agent import Agent
 from console import PygameApp
 from utils import load_config
 from definitions import ACTIONS, SENSE_NAMES, DIRECTIONS, VECTORS
-from kb import KnowledgeBase, CellStatus
+from kb import KnowledgeBase, CellStatus, Bounds
 
 
 class MyAgent(Agent):
@@ -23,28 +23,30 @@ class MyAgent(Agent):
         self.pos = (0, 0)
         self.prev_pos = (0, 0)
         self.facing_idx = 1
-        self.rows = 4
-        self.cols = 4
+        self.bounds = Bounds()
 
     def update(self, senses):
         super().update(senses)
 
         if senses['Bump']:
             print(f"[{self.pos}] Bump")
+            self.bounds.confirm_wall(self.prev_pos, self.facing_idx)
             self.kb.mark_wall(self.pos)
             self.pos = self.prev_pos
             return
+
+        self.bounds.expand(self.pos)
 
         if not self.kb.mark_visited(self.pos):
             return
 
         if senses['Breeze']:
             print(f"[{self.pos}] Breeze")
-            self.kb.mark_breeze(self.pos)
+            self.kb.mark_breeze(self.pos, self.bounds)
 
         if senses['Stench']:
             print(f"[{self.pos}] Stench")
-            self.kb.mark_stench(self.pos)
+            self.kb.mark_stench(self.pos, self.bounds)
 
         if senses['Glimmer']:
             print(f"[{self.pos}] Glimmer")
@@ -55,13 +57,13 @@ class MyAgent(Agent):
 
         if not any(senses.values()):
             print(f"[{self.pos}] Empty Cell")
-            self.kb.mark_empty(self.pos)
+            self.kb.mark_empty(self.pos, self.bounds)
 
     def act(self):
         print(f"[{self.pos}] act() called — facing {DIRECTIONS[self.facing_idx]}")
         self.prev_pos = self.pos
 
-        action = self.kb.next_action(self.pos, self.facing_idx, (self.rows, self.cols))
+        action = self.kb.next_action(self.pos, self.facing_idx, self.bounds)
 
         if action == 'LEFT':
             self.facing_idx = (self.facing_idx - 1) % 4

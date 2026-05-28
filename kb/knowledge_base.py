@@ -1,6 +1,6 @@
 from collections import defaultdict
 from .cell import Cell, CellStatus
-from .definitions import neighbors
+from .definitions import Bounds, neighbors
 from .navigator import action_toward, navigate_to, best_neighbor
 
 
@@ -29,26 +29,26 @@ class KnowledgeBase:
         if cell.status == CellStatus.UNKNOWN:
             cell.status = CellStatus.SAFE      
 
-    def mark_empty(self, pos: tuple):
-        for neighbor in neighbors(pos):
+    def mark_empty(self, pos: tuple, bounds: Bounds = None):
+        for neighbor in neighbors(pos, bounds):
             self.mark_safe(neighbor)
 
-    def mark_breeze(self, pos: tuple):
+    def mark_breeze(self, pos: tuple, bounds: Bounds = None):
         self._map[pos].has_breeze = True
-        for n in neighbors(pos):
+        for n in neighbors(pos, bounds):
             if self._map[n].status == CellStatus.UNKNOWN:
                 self._map[n].pit_score += 1
 
-    def mark_stench(self, pos: tuple):
+    def mark_stench(self, pos: tuple, bounds: Bounds = None):
         self._map[pos].has_stench = True
-        for n in neighbors(pos):
+        for n in neighbors(pos, bounds):
             if self._map[n].status == CellStatus.UNKNOWN:
                 self._map[n].wumpus_score += 1
 
     def mark_glimmer(self, pos: tuple):
         self._map[pos].has_glimmer = True
 
-    def next_action(self, pos: tuple, facing_idx: int, map_size: tuple) -> str:
+    def next_action(self, pos: tuple, facing_idx: int, bounds: Bounds) -> str:
         if self.gold_grabbed and pos == (0, 0):
             return 'EXIT'
 
@@ -57,10 +57,10 @@ class KnowledgeBase:
             return 'GRAB'
 
         if self.gold_grabbed:
-            action = navigate_to(self._map, pos, (0, 0), facing_idx, map_size)
+            action = navigate_to(self._map, pos, (0, 0), facing_idx, bounds)
             return action if action is not None else 'NO_ACTION'
 
-        best = best_neighbor(self._map, pos)
+        best = best_neighbor(self._map, pos, bounds)
         if best is None:
             return 'NO_ACTION'
 
