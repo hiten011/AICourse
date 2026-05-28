@@ -16,10 +16,9 @@ class KnowledgeBase:
         return pos in self._map
 
     def mark_visited(self, pos: tuple) -> bool:
-        if self._map[pos].visited:
-            return False
-        self._map[pos].visited = True
-        return True
+        already = self._map[pos].visited > 0
+        self._map[pos].visited += 1
+        return not already
 
     def mark_wall(self, pos: tuple):
         self._map[pos].is_bump = True

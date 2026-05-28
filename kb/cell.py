@@ -12,7 +12,7 @@ class CellStatus(Enum):
 class Cell:
     def __init__(self):
         self.status       = CellStatus.UNKNOWN
-        self.visited      = False
+        self.visited      = 0
         self.has_stench   = False
         self.has_breeze   = False
         self.has_glimmer  = False
@@ -26,10 +26,10 @@ class Cell:
             self.evaluate_status()
 
     def safe_probability(self) -> int:
-        if self.status == CellStatus.SAFE and not self.visited:
+        if self.status == CellStatus.SAFE and self.visited == 0:
             return 3   # safe, unexplored — highest priority
 
-        if self.status == CellStatus.SAFE and self.visited:
+        if self.status == CellStatus.SAFE and self.visited > 0:
             return 2   # safe but already seen — revisit only if needed
 
         if self.status == CellStatus.UNKNOWN:
@@ -38,7 +38,7 @@ class Cell:
         return 0       # DANGER_PIT, DANGER_WUMPUS, WALL — never enter
 
     def evaluate_status(self):
-        if self.visited or self.has_breeze or self.has_stench:
+        if self.visited > 0 or self.has_breeze or self.has_stench:
             self.status = CellStatus.SAFE
 
         elif self.is_bump:
