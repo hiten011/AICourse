@@ -48,6 +48,9 @@ class KnowledgeBase:
         self._map[pos].wumpus_score = 4        # evaluate_status auto-sets DANGER_WUMPUS
 
     def next_action(self, pos: tuple, facing_idx: int) -> str:
+        if self.gold_grabbed and pos == (0, 0):
+            return 'EXIT'
+
         if self._map[pos].has_glimmer and not self.gold_grabbed:
             self.gold_grabbed = True
             return 'GRAB'
@@ -60,10 +63,10 @@ class KnowledgeBase:
             (r,     c - 1), # W
         ]
 
-        neighbours.sort(key=lambda p: self[p].safe_probability(), reverse=True)
+        neighbours.sort(key=lambda p: self[p].safe_probability())
 
         best = neighbours[0]
-        if self[best].safe_probability() == 0:
+        if self[best].safe_probability() >= 999:
             return 'NO_ACTION'
 
         return action_toward(pos, best, facing_idx)
