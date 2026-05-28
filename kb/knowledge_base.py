@@ -40,7 +40,10 @@ class KnowledgeBase:
                 self._map[n].pit_score += 1
 
     def mark_stench(self, pos: tuple):
-        self._map[pos].has_stench = True     
+        self._map[pos].has_stench = True
+        for n in neighbors(pos):
+            if self._map[n].status == CellStatus.UNKNOWN:
+                self._map[n].wumpus_score += 1
 
     def mark_glimmer(self, pos: tuple):
         self._map[pos].has_glimmer = True
