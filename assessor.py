@@ -19,8 +19,8 @@ import numpy as np
 agent = MyAgent()
 # agent = RandomAgent()
 scores = []
-num_runs = 100
-config = load_config(cave_name='default')
+num_runs = 500
+config = load_config(cave_name='gold')
 for i in range(num_runs):
     score, _ = PygameApp(agent=agent, config=config).run()
     scores.append(score)
