@@ -45,6 +45,23 @@ class KnowledgeBase:
     def mark_danger_wumpus(self, pos: tuple):
         self._map[pos].wumpus_score = 4        # evaluate_status auto-sets DANGER_WUMPUS
 
+    def next_action(self, pos: tuple, facing_idx: int) -> str:
+        r, c = pos
+        neighbours = [
+            (r + 1, c),     # N
+            (r,     c + 1), # E
+            (r - 1, c),     # S
+            (r,     c - 1), # W
+        ]
+
+        neighbours.sort(key=lambda p: self[p].safe_probability(), reverse=True)
+
+        best = neighbours[0]
+        if self[best].safe_probability() == 0:
+            return 'NO_ACTION'
+
+        return action_toward(pos, best, facing_idx)
+
     def reset(self):
         self._map = defaultdict(Cell)
         self.wumpus_dead = False

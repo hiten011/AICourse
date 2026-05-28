@@ -53,10 +53,20 @@ class MyAgent(Agent):
             self.kb.mark_empty(self.pos)
 
     def act(self):
+        print(f"[{self.pos}] act() called — facing {DIRECTIONS[self.facing_idx]}")
         self.prev_pos = self.pos
 
-        # TODO: replace with real decision logic
-        return self.remember_action('NO_ACTION')
+        action = self.kb.next_action(self.pos, self.facing_idx)
+
+        if action == 'LEFT':
+            self.facing_idx = (self.facing_idx - 1) % 4
+        elif action == 'RIGHT':
+            self.facing_idx = (self.facing_idx + 1) % 4
+        elif action == 'FORWARD':
+            dr, dc = VECTORS[DIRECTIONS[self.facing_idx]]
+            self.pos = (self.pos[0] + dr, self.pos[1] + dc)
+
+        return self.remember_action(action)
 
 def parse_args():
     """Read command-line options for launching the logic-agent emulator."""
