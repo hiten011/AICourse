@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from enum import Enum, auto
 
 
@@ -10,23 +9,20 @@ class CellStatus(Enum):
     WALL          = auto()
 
 
-@dataclass
 class Cell:
-    status:       CellStatus = CellStatus.UNKNOWN
-    visited:      bool       = False
-    has_stench:   bool       = False
-    has_breeze:   bool       = False
-    has_glimmer:  bool       = False
-    is_bump:      bool       = False
-    pit_score:    int        = 0
-    wumpus_score: int        = 0
-
-    def __post_init__(self):
-        object.__setattr__(self, '_ready', True)
+    def __init__(self):
+        self.status       = CellStatus.UNKNOWN
+        self.visited      = False
+        self.has_stench   = False
+        self.has_breeze   = False
+        self.has_glimmer  = False
+        self.is_bump      = False
+        self.pit_score    = 0
+        self.wumpus_score = 0  # evaluate_status fires from here onward
 
     def __setattr__(self, name, value):
         object.__setattr__(self, name, value)
-        if name != 'status' and getattr(self, '_ready', False):
+        if name != 'status' and hasattr(self, 'wumpus_score'):
             self.evaluate_status()
 
     def safe_probability(self) -> int:
