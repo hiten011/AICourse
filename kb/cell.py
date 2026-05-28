@@ -28,6 +28,18 @@ class Cell:
         if name != 'status' and getattr(self, '_ready', False):
             self.evaluate_status()
 
+    def safe_probability(self) -> int:
+        if self.status == CellStatus.SAFE and not self.visited:
+            return 3   # safe, unexplored — highest priority
+
+        if self.status == CellStatus.SAFE and self.visited:
+            return 2   # safe but already seen — revisit only if needed
+
+        if self.status == CellStatus.UNKNOWN:
+            return 1   # uncertain — worth considering if nothing better
+            
+        return 0       # DANGER_PIT, DANGER_WUMPUS, WALL — never enter
+
     def evaluate_status(self):
         if self.visited or self.has_breeze or self.has_stench:
             self.status = CellStatus.SAFE
