@@ -35,11 +35,11 @@ class Cell:
         return 999  # DANGER_PIT, DANGER_WUMPUS, WALL — never enter
 
     def evaluate_status(self):
-        if self.visited > 0 or self.has_breeze or self.has_stench:
-            self.status = CellStatus.SAFE
-
-        elif self.is_bump:
+        if self.is_bump:
             self.status = CellStatus.WALL
+
+        elif self.visited > 0 or self.has_breeze or self.has_stench:
+            self.status = CellStatus.SAFE
             
         elif self.status == CellStatus.UNKNOWN:
             if self.wumpus_score == 4:

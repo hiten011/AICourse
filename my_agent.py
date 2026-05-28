@@ -26,13 +26,20 @@ class MyAgent(Agent):
 
     def update(self, senses):
         super().update(senses)
+
+        if senses['Bump']:
+            print(f"[{self.pos}] Bump")
+            self.kb.mark_wall(self.pos)
+            self.pos = self.prev_pos
+            return
+
         if not self.kb.mark_visited(self.pos):
             return
 
         if senses['Breeze']:
             print(f"[{self.pos}] Breeze")
             self.kb.mark_breeze(self.pos)
-            
+
         if senses['Stench']:
             print(f"[{self.pos}] Stench")
             self.kb.mark_stench(self.pos)
@@ -40,11 +47,6 @@ class MyAgent(Agent):
         if senses['Glimmer']:
             print(f"[{self.pos}] Glimmer")
             self.kb.mark_glimmer(self.pos)
-
-        if senses['Bump']:
-            print(f"[{self.pos}] Bump")
-            self.kb.mark_wall(self.pos)
-            self.pos = self.prev_pos # back to prev position
 
         if senses['Scream']:
             print(f"[{self.pos}] Scream")
