@@ -1,7 +1,7 @@
 from .cell import Cell, CellStatus
 from .definitions import GRID_SIZE, SPAWN, neighbors
 from .explore_queue import ExploreQueue
-from .navigator import navigate_to
+from .navigator import navigate_to, action_toward
 from definitions import DIRECTIONS, VECTORS
 
 
@@ -12,6 +12,7 @@ class KnowledgeBase:
         self._explore = ExploreQueue()
         self.wumpus_dead = False
         self.gold_grabbed = False
+        self.wumpus_pos: tuple | None = None
 
     def _cell(self, pos: tuple) -> Cell:
         cell = self._map.get(pos)
@@ -68,16 +69,27 @@ class KnowledgeBase:
 
     def mark_stench(self, pos: tuple, facing_idx: int = None):
         self[pos].has_stench = True
-        nbrs = neighbors(pos, facing_idx)
-        if self[pos].visited > 1:
-            safe_count = sum(1 for n in nbrs if self[n].status in (CellStatus.SAFE, CellStatus.WALL))
-            unknown = [n for n in nbrs if self[n].status == CellStatus.UNKNOWN]
-            if safe_count >= 3 and len(unknown) == 1:
-                self[unknown[0]].wumpus_score = 5
-        else:
+
+        if not self.wumpus_dead:
+            nbrs = neighbors(pos, facing_idx)
+            if self[pos].visited > 1:
+                safe_count = sum(1 for n in nbrs if self[n].status in (CellStatus.SAFE, CellStatus.WALL))
+                unknown = [n for n in nbrs if self[n].status == CellStatus.UNKNOWN]
+                if safe_count >= 3 and len(unknown) == 1:
+                    self[unknown[0]].wumpus_score = 5
+            else:
+                for n in nbrs:
+                    if self[n].status == CellStatus.UNKNOWN:
+                        self[n].wumpus_score += 1
+            
             for n in nbrs:
-                if self[n].status == CellStatus.UNKNOWN:
-                    self[n].wumpus_score += 1
+                if self[n].status == CellStatus.DANGER_WUMPUS:
+                    self.wumpus_pos = n
+                    break
+
+    def mark_scream(self):
+        return
+            
 
     def mark_glimmer(self, pos: tuple):
         self[pos].has_glimmer = True
@@ -93,6 +105,15 @@ class KnowledgeBase:
         if self.gold_grabbed:
             return navigate_to(self._grid, pos, SPAWN, facing_idx)
 
+        if self.wumpus_pos is not None and not self.wumpus_dead:
+            action = action_toward(pos, self.wumpus_pos, facing_idx)
+            if action == 'FORWARD':
+                self.mark_safe(self.wumpus_pos)
+                self.wumpus_pos = None
+                self.wumpus_dead = True
+                return 'SHOOT'
+            return action
+
         target = self._explore.peek()
         if target is None:
             print("NO WAY GOLD")
@@ -105,3 +126,4 @@ class KnowledgeBase:
         self._explore = ExploreQueue()
         self.wumpus_dead = False
         self.gold_grabbed = False
+        self.wumpus_pos = None
