@@ -1,41 +1,39 @@
 import argparse
-from collections import deque
+
+import numpy as np
 
 from agent import Agent
 from console import PygameApp
 from utils import load_config
-from definitions import ACTIONS, SENSE_NAMES, DIRECTIONS, VECTORS
-from kb import KnowledgeBase, CellStatus, Bounds
+from definitions import DIRECTIONS, VECTORS
+from kb import KnowledgeBase, GRID_SIZE, SPAWN
 
 
 class MyAgent(Agent):
 
     def __init__(self):
         self.kb = KnowledgeBase()
-        self.pos = (0, 0)
-        self.prev_pos = (0, 0)
+        self.pos = SPAWN
+        self.prev_pos = SPAWN
         self.facing_idx = 1          # start facing East
+        self.grid = np.full((GRID_SIZE, GRID_SIZE), "X", dtype=object)
         super().__init__()
 
     def reset(self):
         super().reset()
-        self.kb.reset()
-        self.pos = (0, 0)
-        self.prev_pos = (0, 0)
+        self.pos = SPAWN
+        self.prev_pos = SPAWN
         self.facing_idx = 1
-        self.bounds = Bounds()
+        self.grid = np.full((GRID_SIZE, GRID_SIZE), "X", dtype=object)
+        self.kb.reset(self.grid)
 
     def update(self, senses):
         super().update(senses)
 
         if senses['Bump']:
-            print(f"[{self.pos}] Bump")
-            self.bounds.confirm_wall(self.prev_pos, self.facing_idx)
-            self.kb.mark_wall(self.pos)
+            self.kb.mark_wall(self.prev_pos, self.facing_idx)
             self.pos = self.prev_pos
             return
-
-        self.bounds.expand(self.pos)
 
         if not self.kb.mark_visited(self.pos):
             return
@@ -47,7 +45,6 @@ class MyAgent(Agent):
             self.kb.mark_stench(self.pos)
 
         if senses['Glimmer']:
-            print(f"[{self.pos}] Glimmer")
             self.kb.mark_glimmer(self.pos)
 
         if senses['Scream']:
@@ -57,7 +54,6 @@ class MyAgent(Agent):
             self.kb.mark_empty(self.pos)
 
     def act(self):
-        print(f"[{self.pos}] act() called — facing {DIRECTIONS[self.facing_idx]}")
         self.prev_pos = self.pos
 
         action = self.kb.next_action(self.pos, self.facing_idx)
