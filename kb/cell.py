@@ -38,11 +38,11 @@ class Cell:
         if self.is_bump:
             self.status = CellStatus.WALL
 
-        elif self.visited > 0 or self.has_breeze or self.has_stench:
+        elif self.visited > 0:
             self.status = CellStatus.SAFE
-            
+        
         elif self.status == CellStatus.UNKNOWN:
-            if self.wumpus_score == 4:
+            if self.wumpus_score >= 4:
                 self.status = CellStatus.DANGER_WUMPUS
-            elif self.pit_score == 4:
+            elif self.pit_score >= 4:
                 self.status = CellStatus.DANGER_PIT
