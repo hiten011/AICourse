@@ -36,7 +36,12 @@ class MyAgent(Agent):
             return
 
         if not self.kb.mark_visited(self.pos):
-            return # if already visited return
+            if senses['Breeze']:
+                self.kb.mark_breeze(self.pos, self.facing_idx)
+            if senses['Stench']:
+                self.kb.mark_stench(self.pos, self.facing_idx)
+                
+            return
 
         if senses['Breeze']:
             self.kb.mark_breeze(self.pos, self.facing_idx)
