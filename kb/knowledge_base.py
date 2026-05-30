@@ -55,15 +55,29 @@ class KnowledgeBase:
 
     def mark_breeze(self, pos: tuple, facing_idx: int = None):
         self[pos].has_breeze = True
-        for n in neighbors(pos, facing_idx):
-            if self[n].status == CellStatus.UNKNOWN:
-                self[n].pit_score += 1
+        nbrs = neighbors(pos, facing_idx)
+        if self[pos].visited > 1:
+            safe_count = sum(1 for n in nbrs if self[n].status in (CellStatus.SAFE, CellStatus.WALL))
+            unknown = [n for n in nbrs if self[n].status == CellStatus.UNKNOWN]
+            if safe_count >= 3 and len(unknown) == 1:
+                self[unknown[0]].pit_score = 5
+        else:
+            for n in nbrs:
+                if self[n].status == CellStatus.UNKNOWN:
+                    self[n].pit_score += 1
 
     def mark_stench(self, pos: tuple, facing_idx: int = None):
         self[pos].has_stench = True
-        for n in neighbors(pos, facing_idx):
-            if self[n].status == CellStatus.UNKNOWN:
-                self[n].wumpus_score += 1
+        nbrs = neighbors(pos, facing_idx)
+        if self[pos].visited > 1:
+            safe_count = sum(1 for n in nbrs if self[n].status in (CellStatus.SAFE, CellStatus.WALL))
+            unknown = [n for n in nbrs if self[n].status == CellStatus.UNKNOWN]
+            if safe_count >= 3 and len(unknown) == 1:
+                self[unknown[0]].wumpus_score = 5
+        else:
+            for n in nbrs:
+                if self[n].status == CellStatus.UNKNOWN:
+                    self[n].wumpus_score += 1
 
     def mark_glimmer(self, pos: tuple):
         self[pos].has_glimmer = True
