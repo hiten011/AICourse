@@ -108,7 +108,7 @@ class KnowledgeBase:
         if self.wumpus_pos is not None and not self.wumpus_dead:
             action = action_toward(pos, self.wumpus_pos, facing_idx)
             if action == 'FORWARD':
-                self.mark_safe(self.wumpus_pos)
+                self[self.wumpus_pos].is_safe = True
                 self.wumpus_pos = None
                 self.wumpus_dead = True
                 return 'SHOOT'
