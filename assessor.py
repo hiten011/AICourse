@@ -15,6 +15,7 @@ from random_agent import RandomAgent
 from console import PygameApp
 from utils import load_config
 import numpy as np
+import time
 
 agent = MyAgent()
 # agent = RandomAgent()
@@ -22,7 +23,10 @@ scores = []
 num_runs = 10000
 
 config = load_config(cave_name='large')
+start = time.time()
 for i in range(num_runs):
     score, _ = PygameApp(agent=agent, config=config).run()
     scores.append(score)
+elapsed = time.time() - start
 print(f'Success rate: ', np.sum((np.array(scores) > 0))/num_runs)
+print(f'Total time: {elapsed:.2f}s ({elapsed/num_runs*1000:.1f}ms/run)')
