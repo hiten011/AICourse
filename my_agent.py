@@ -15,7 +15,7 @@ class MyAgent(Agent):
         self.kb = KnowledgeBase()
         self.pos = SPAWN
         self.prev_pos = SPAWN
-        self.facing_idx = 1          # start facing East
+        self.facing_idx = 1       
         self.grid = np.full((GRID_SIZE, GRID_SIZE), "X", dtype=object)
         super().__init__()
 
@@ -36,7 +36,7 @@ class MyAgent(Agent):
             return
 
         if not self.kb.mark_visited(self.pos):
-            return
+            return # if already visited return
 
         if senses['Breeze']:
             self.kb.mark_breeze(self.pos, self.facing_idx)
