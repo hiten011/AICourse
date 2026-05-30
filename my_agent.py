@@ -41,12 +41,10 @@ class MyAgent(Agent):
             return
 
         if senses['Breeze']:
-            print(f"[{self.pos}] Breeze")
-            self.kb.mark_breeze(self.pos, self.bounds)
+            self.kb.mark_breeze(self.pos)
 
         if senses['Stench']:
-            print(f"[{self.pos}] Stench")
-            self.kb.mark_stench(self.pos, self.bounds)
+            self.kb.mark_stench(self.pos)
 
         if senses['Glimmer']:
             print(f"[{self.pos}] Glimmer")
@@ -56,14 +54,13 @@ class MyAgent(Agent):
             print(f"[{self.pos}] Scream")
 
         if not any(senses.values()):
-            print(f"[{self.pos}] Empty Cell")
-            self.kb.mark_empty(self.pos, self.bounds)
+            self.kb.mark_empty(self.pos)
 
     def act(self):
         print(f"[{self.pos}] act() called — facing {DIRECTIONS[self.facing_idx]}")
         self.prev_pos = self.pos
 
-        action = self.kb.next_action(self.pos, self.facing_idx, self.bounds)
+        action = self.kb.next_action(self.pos, self.facing_idx)
 
         if action == 'LEFT':
             self.facing_idx = (self.facing_idx - 1) % 4
