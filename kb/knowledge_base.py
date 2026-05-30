@@ -33,6 +33,7 @@ class KnowledgeBase:
         self[pos].visited += 1
         return True
 
+    # mark the entire perpendicular line as wall
     def mark_wall(self, prev_pos: tuple, facing_idx: int):
         dr, dc = VECTORS[DIRECTIONS[facing_idx]]
         r, c = prev_pos
@@ -80,6 +81,7 @@ class KnowledgeBase:
 
         target = self._explore.peek()
         if target is None:
+            print("NO WAY GOLD")
             return navigate_to(self._grid, pos, SPAWN, facing_idx)
         return navigate_to(self._grid, pos, target, facing_idx)
 
