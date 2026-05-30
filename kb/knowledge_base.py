@@ -1,7 +1,7 @@
 from .cell import Cell, CellStatus
 from .definitions import GRID_SIZE, SPAWN, neighbors
 from .explore_queue import ExploreQueue
-from .navigator import navigate_to, action_toward
+from .navigator import navigate_to, action_toward, reset_cache
 from definitions import DIRECTIONS, VECTORS
 
 
@@ -130,3 +130,4 @@ class KnowledgeBase:
         self.wumpus_dead = False
         self.gold_grabbed = False
         self.wumpus_pos = None
+        reset_cache()
