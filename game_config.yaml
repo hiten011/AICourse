@@ -12,7 +12,7 @@ emulator: # Visual emulator parameters.
   max_agent_actions: 1000 # Safety cap for no-window runs.
   suppress_agent_output: false # When running without a window, hide agent debug prints and show only final score.
   recent_percepts_limit: 15 # Number of recent percept entries to show.
-  agent_action_delay_ms: 0 # Minimum delay between agent actions in milliseconds.
+  agent_action_delay_ms: 500 # Minimum delay between agent actions in milliseconds.
   window_width: 1100 # Width of the pygame window in pixels.
   window_height: 780 # Height of the pygame window in pixels.
   board_left: 48 # Left pixel position of the board.
