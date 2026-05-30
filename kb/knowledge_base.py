@@ -30,7 +30,6 @@ class KnowledgeBase:
         if self[pos].visited > 0:
             self[pos].visited += 1
             return False
-        
         self[pos].visited += 1
         return True
 
@@ -47,21 +46,21 @@ class KnowledgeBase:
     def mark_safe(self, pos: tuple):
         cell = self[pos]
         if cell.status == CellStatus.UNKNOWN:
-            cell.is_safe = True 
+            cell.is_safe = True
 
-    def mark_empty(self, pos: tuple):
-        for n in neighbors(pos):
+    def mark_empty(self, pos: tuple, facing_idx: int = None):
+        for n in neighbors(pos, facing_idx):
             self.mark_safe(n)
 
-    def mark_breeze(self, pos: tuple):
+    def mark_breeze(self, pos: tuple, facing_idx: int = None):
         self[pos].has_breeze = True
-        for n in neighbors(pos):
+        for n in neighbors(pos, facing_idx):
             if self[n].status == CellStatus.UNKNOWN:
                 self[n].pit_score += 1
 
-    def mark_stench(self, pos: tuple):
+    def mark_stench(self, pos: tuple, facing_idx: int = None):
         self[pos].has_stench = True
-        for n in neighbors(pos):
+        for n in neighbors(pos, facing_idx):
             if self[n].status == CellStatus.UNKNOWN:
                 self[n].wumpus_score += 1
 
