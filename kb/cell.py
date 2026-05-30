@@ -48,7 +48,7 @@ class Cell:
             self._queue.add(self.gpos, 0)
 
         elif self.status == CellStatus.UNKNOWN:
-            if self.wumpus_score >= 4:
+            if self.wumpus_score >= 2:
                 self.status = CellStatus.DANGER_WUMPUS
                 self._queue.discard(self.gpos) 
             elif self.pit_score >= 4:
