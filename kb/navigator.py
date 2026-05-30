@@ -17,6 +17,7 @@ def navigate_to(grid, pos: tuple, target: tuple, facing_idx: int) -> str | None:
     grid[target[0]][target[1]] = "."
 
     path = bfs(pos, target, (GRID_SIZE, GRID_SIZE), grid)
+    
     grid[target[0]][target[1]] = saved
 
     if not path:
