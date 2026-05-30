@@ -39,10 +39,10 @@ class MyAgent(Agent):
             return
 
         if senses['Breeze']:
-            self.kb.mark_breeze(self.pos)
+            self.kb.mark_breeze(self.pos, self.facing_idx)
 
         if senses['Stench']:
-            self.kb.mark_stench(self.pos)
+            self.kb.mark_stench(self.pos, self.facing_idx)
 
         if senses['Glimmer']:
             self.kb.mark_glimmer(self.pos)
@@ -51,7 +51,7 @@ class MyAgent(Agent):
             print(f"[{self.pos}] Scream")
 
         if not any(senses.values()):
-            self.kb.mark_empty(self.pos)
+            self.kb.mark_empty(self.pos, self.facing_idx)
 
     def act(self):
         self.prev_pos = self.pos
