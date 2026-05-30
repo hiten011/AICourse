@@ -54,6 +54,7 @@ class MyAgent(Agent):
 
         if senses['Scream']:
             print(f"[{self.pos}] Scream")
+            self.kb.mark_scream()
 
         if not any(senses.values()):
             self.kb.mark_empty(self.pos, self.facing_idx)
