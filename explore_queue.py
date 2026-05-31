@@ -14,7 +14,7 @@ class ExploreQueue:
         entry = (prob, -self._count, pos)
 
         self._count += 1
-        
+
         self._entries[pos] = entry
         self._sl.add(entry)
 

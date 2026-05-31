@@ -6,7 +6,8 @@ from agent import Agent
 from console import PygameApp
 from utils import load_config
 from definitions import DIRECTIONS, VECTORS
-from kb import KnowledgeBase, GRID_SIZE, SPAWN
+from knowledge_base import KnowledgeBase
+from config import GRID_SIZE, SPAWN
 
 
 class MyAgent(Agent):

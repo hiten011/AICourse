@@ -1,7 +1,7 @@
-from .cell import Cell, CellStatus
-from .definitions import GRID_SIZE, SPAWN, neighbors
-from .explore_queue import ExploreQueue
-from .navigator import navigate_to, action_toward, reset_cache
+from cell import Cell, CellStatus
+from config import GRID_SIZE, SPAWN, neighbors
+from explore_queue import ExploreQueue
+from navigator import navigate_to, action_toward, reset_cache
 from definitions import DIRECTIONS, VECTORS
 
 
@@ -62,12 +62,12 @@ class KnowledgeBase:
             for n in nbrs:
                 if self[n].status == CellStatus.UNKNOWN:
                     self[n].pit_score += 1
-    
+
         safe_count = sum(1 for n in nbrs if self[n].status in (CellStatus.SAFE, CellStatus.WALL))
         unknown = [n for n in nbrs if self[n].status == CellStatus.UNKNOWN]
         if safe_count >= 3 and len(unknown) == 1:
             self[unknown[0]].pit_score = 5
-        
+
 
     def mark_stench(self, pos: tuple, facing_idx: int = None):
         self[pos].has_stench = True
@@ -79,12 +79,12 @@ class KnowledgeBase:
                 for n in nbrs:
                     if self[n].status == CellStatus.UNKNOWN:
                         self[n].wumpus_score += 1
-                        
+
             safe_count = sum(1 for n in nbrs if self[n].status in (CellStatus.SAFE, CellStatus.WALL))
             unknown = [n for n in nbrs if self[n].status == CellStatus.UNKNOWN]
             if safe_count >= 3 and len(unknown) == 1:
                 self[unknown[0]].wumpus_score = 5
-            
+
             for n in nbrs:
                 if self[n].status == CellStatus.DANGER_WUMPUS:
                     self.wumpus_pos = n
@@ -92,7 +92,7 @@ class KnowledgeBase:
 
     def mark_scream(self):
         return
-            
+
 
     def mark_glimmer(self, pos: tuple):
         self[pos].has_glimmer = True

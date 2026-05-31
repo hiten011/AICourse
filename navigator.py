@@ -1,5 +1,5 @@
 from pathfinder import bfs
-from .definitions import GRID_SIZE
+from config import GRID_SIZE
 from definitions import DIRECTIONS, VECTORS
 
 _cached_target: tuple | None = None

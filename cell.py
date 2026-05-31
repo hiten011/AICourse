@@ -22,7 +22,7 @@ class Cell:
         self.is_bump      = False
         self.is_safe      = False
         self.pit_score    = 0
-        self.wumpus_score = 0 
+        self.wumpus_score = 0
 
     def __setattr__(self, name, value):
         object.__setattr__(self, name, value)
@@ -50,10 +50,10 @@ class Cell:
         elif self.status == CellStatus.UNKNOWN:
             if self.wumpus_score >= 2:
                 self.status = CellStatus.DANGER_WUMPUS
-                self._queue.discard(self.gpos) 
+                self._queue.discard(self.gpos)
             elif self.pit_score >= 4:
                 self.status = CellStatus.DANGER_PIT
-                self._queue.discard(self.gpos) 
+                self._queue.discard(self.gpos)
             else:
                 self._queue.discard(self.gpos)
-                self._queue.add(self.gpos, 1 + self.pit_score + self.wumpus_score) 
+                self._queue.add(self.gpos, 1 + self.pit_score + self.wumpus_score)
