@@ -22,7 +22,7 @@ agent = MyAgent()
 scores = []
 num_runs = 10000
 
-config = load_config(cave_name='large')
+config = load_config(cave_name='default')
 start = time.time()
 for i in range(num_runs):
     score, _ = PygameApp(agent=agent, config=config).run()
