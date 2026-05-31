@@ -119,7 +119,8 @@ class KnowledgeBase:
 
         target = self._explore.peek()
         if target is None:
-            print("NO WAY GOLD")
+            if pos == SPAWN:
+                return 'EXIT'
             return navigate_to(self._grid, pos, SPAWN, facing_idx)
         return navigate_to(self._grid, pos, target, facing_idx)
 
